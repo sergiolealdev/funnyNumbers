@@ -37,7 +37,7 @@ export class Game {
   ngOnInit() {
     console.log("empezamos");
     this.items2.subscribe((v) => {
-      console.log('got value', v);
+    //  console.log('got value', v);
       this.counter++;
       this.performCheckingNumbers();
       if (this.counter % 2 == 0) {
@@ -92,15 +92,16 @@ export class Game {
 }
 
   private performCheckingNumbers(){
+    console.log(this.firstTryX + " " + this.firstTryY + " " + this.secondTryX + " " + this.secondTryY);
     if(this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1){
       return;
     }
     
     if(this.numbers[this.firstTryX][this.firstTryY] == this.numbers[this.secondTryX][this.secondTryY]){
-      this.firstTryX == -1;
-      this.firstTryY == -1;
-      this.secondTryX == -1;
-      this.secondTryY == -1;
+      this.firstTryX = -1;
+      this.firstTryY = -1;
+      this.secondTryX = -1;
+      this.secondTryY = -1;
       console.log(3);
     }else{
       console.log(4);
