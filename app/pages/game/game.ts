@@ -20,7 +20,6 @@ export class Game {
   private firstTryY:number;
   private secondTryX:number;
   private secondTryY:number;
-  private timeToCheck:boolean;
   private timer: any;
   private items2: Observable<number>;
   private counter = 0;
@@ -31,11 +30,7 @@ export class Game {
     this.firstTryY = -1;
     this.secondTryX = -1;
     this.secondTryY = -1;
-    this.timeToCheck = false;
     this.items2 = Observable.timer(0, 1000);
-    /*setInterval(()=>{
-        (this.checkMatch(), 3000);
-    })*/
 
   }
 
@@ -51,18 +46,6 @@ export class Game {
     }, null, () => {
       this.changeDetector.markForCheck();
     });
-  }
-
-  private checkMatch(){
-    console.log("checkMatch");
-    if(this.timeToCheck){
-      this.timer = setInterval(()=>{
-        (this.performCheckingNumbers(), 3000);
-    })
-      
-      console.log(new Date().toLocaleTimeString());
-     // this.performCheckingNumbers();
-    }
   }
 
   private initArrayBooleans(){
@@ -106,47 +89,31 @@ export class Game {
       this.principal[i][j] = false;
       console.log(2);
     }
-
-      //this.checkMatch();
-    console.log(i + " " + j);
-    
 }
 
-private performCheckingNumbers(){
-  if(this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1){
-    return;
-  }
+  private performCheckingNumbers(){
+    if(this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1){
+      return;
+    }
     
-  if(this.numbers[this.firstTryX][this.firstTryY] == this.numbers[this.secondTryX][this.secondTryY]){
-        this.firstTryX == -1;
-        this.firstTryY == -1;
-        this.secondTryX == -1;
-        this.secondTryY == -1;
-        console.log(3);
-      }else{
-        console.log(4);
-        
-        
-        this.principal[this.secondTryX][this.secondTryY]=true;
-        this.principal[this.firstTryX][this.firstTryY]=true;
-        this.firstTryX = -1;
-        this.firstTryY = -1;
-        this.secondTryX = -1;
-        this.secondTryY = -1;
-        console.log(5);
-      }
-      //this.wait(2000);
-        //    clearInterval(this.timer);
-     // this.timeToCheck=false;
-
-}
-
-private  wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
+    if(this.numbers[this.firstTryX][this.firstTryY] == this.numbers[this.secondTryX][this.secondTryY]){
+      this.firstTryX == -1;
+      this.firstTryY == -1;
+      this.secondTryX == -1;
+      this.secondTryY == -1;
+      console.log(3);
+    }else{
+      console.log(4);
+      
+      
+      this.principal[this.secondTryX][this.secondTryY]=true;
+      this.principal[this.firstTryX][this.firstTryY]=true;
+      this.firstTryX = -1;
+      this.firstTryY = -1;
+      this.secondTryX = -1;
+      this.secondTryY = -1;
+      console.log(5);
+    }
 }
 
   private shuffle(a) {
