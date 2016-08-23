@@ -1,8 +1,12 @@
-import {Component } from '@angular/core';
+import {Component,
+  Input,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy  } from '@angular/core';
 import {NavController} from 'ionic-angular';
-
+import { Observable } from 'rxjs/Rx';
 @Component({
   templateUrl: 'build/pages/game/game.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Game {
   private items = [1,2,3,4];
@@ -16,22 +20,49 @@ export class Game {
   private firstTryY:number;
   private secondTryX:number;
   private secondTryY:number;
+  private timeToCheck:boolean;
+  private timer: any;
+  private items2: Observable<number>;
+  private counter = 0;
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, private changeDetector: ChangeDetectorRef) {
     this.initArrayBooleans();
     this.firstTryX = -1;
     this.firstTryY = -1;
     this.secondTryX = -1;
     this.secondTryY = -1;
-    
+    this.timeToCheck = false;
+    this.items2 = Observable.timer(0, 1000);
+    /*setInterval(()=>{
+        (this.checkMatch(), 3000);
+    })*/
 
   }
-  private onInit(){
-setInterval(this.checkMatch(), 1000);
+
+  ngOnInit() {
+    console.log("empezamos");
+    this.items2.subscribe((v) => {
+      console.log('got value', v);
+      this.counter++;
+      this.performCheckingNumbers();
+      if (this.counter % 2 == 0) {
+        this.changeDetector.markForCheck();
+      }
+    }, null, () => {
+      this.changeDetector.markForCheck();
+    });
   }
 
   private checkMatch(){
+    console.log("checkMatch");
+    if(this.timeToCheck){
+      this.timer = setInterval(()=>{
+        (this.performCheckingNumbers(), 3000);
+    })
+      
       console.log(new Date().toLocaleTimeString());
+     // this.performCheckingNumbers();
+    }
   }
 
   private initArrayBooleans(){
@@ -62,6 +93,8 @@ setInterval(this.checkMatch(), 1000);
   }
 
   private open (i,j){
+    if(this.principal[i][j] = false)
+      return;
     if(this.firstTryX == -1 && this.firstTryY == -1){
       this.firstTryX = i;
       this.firstTryY = j;
@@ -72,15 +105,29 @@ setInterval(this.checkMatch(), 1000);
       this.secondTryY = j;
       this.principal[i][j] = false;
       console.log(2);
-      if(this.numbers[this.firstTryX][this.firstTryY] == this.numbers[this.secondTryX][this.secondTryY]){
+    }
+
+      //this.checkMatch();
+    console.log(i + " " + j);
+    
+}
+
+private performCheckingNumbers(){
+  if(this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1){
+    return;
+  }
+    
+  if(this.numbers[this.firstTryX][this.firstTryY] == this.numbers[this.secondTryX][this.secondTryY]){
         this.firstTryX == -1;
         this.firstTryY == -1;
+        this.secondTryX == -1;
+        this.secondTryY == -1;
         console.log(3);
       }else{
         console.log(4);
         
-        this.wait(2000);
-        this.principal[i][j]=true;
+        
+        this.principal[this.secondTryX][this.secondTryY]=true;
         this.principal[this.firstTryX][this.firstTryY]=true;
         this.firstTryX = -1;
         this.firstTryY = -1;
@@ -88,8 +135,10 @@ setInterval(this.checkMatch(), 1000);
         this.secondTryY = -1;
         console.log(5);
       }
-    }
-    console.log(i + " " + j);
+      //this.wait(2000);
+        //    clearInterval(this.timer);
+     // this.timeToCheck=false;
+
 }
 
 private  wait(ms){
