@@ -40,9 +40,7 @@ export class Game {
   }
 
   ngOnInit() {
-    console.log("empezamos");
     this.items2.subscribe((v) => {
-      //  console.log('got value', v);
       this.counter++;
       this.performCheckingNumbers();
       if (this.counter % 2 == 0) {
@@ -82,25 +80,22 @@ export class Game {
 
   private open(i, j) {
     if (this.principal[i][j] == false) {
-      console.log("you shall not pass");
       return;
     }
     if (this.firstNumberOpened == true && this.secondNumberOpened == true) {
       return;
     }
-    console.log("hemos pasado");
+
     if (this.firstTryX == -1 && this.firstTryY == -1) {
       this.firstNumberOpened = true;
       this.firstTryX = i;
       this.firstTryY = j;
       this.principal[i][j] = false;
-      console.log(1);
     } else {
       this.secondTryX = i;
       this.secondTryY = j;
       this.principal[i][j] = false;
       this.secondNumberOpened = true;
-      console.log(2);
     }
   }
 
@@ -113,7 +108,6 @@ export class Game {
     if (this.numbers[this.firstTryX][this.firstTryY] != this.numbers[this.secondTryX][this.secondTryY]) {
       this.principal[this.secondTryX][this.secondTryY] = true;
       this.principal[this.firstTryX][this.firstTryY] = true;
-      console.log(5);
     }
     this.firstTryX = -1;
     this.firstTryY = -1;
