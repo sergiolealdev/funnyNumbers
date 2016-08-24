@@ -9,23 +9,23 @@ import { Observable } from 'rxjs/Rx';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Game {
-  private items = [1,2,3,4];
-  private rows:number = 4;
-  private cols:number = 4;
+  private items = [1, 2, 3, 4];
+  private rows: number = 4;
+  private cols: number = 4;
   private principal: boolean[][];
   private paths: string[][];
   private numbers: number[][];
-  private opened:boolean[][];
-  private firstTryX:number;
-  private firstTryY:number;
-  private secondTryX:number;
-  private secondTryY:number;
+  private opened: boolean[][];
+  private firstTryX: number;
+  private firstTryY: number;
+  private secondTryX: number;
+  private secondTryY: number;
   private timer: any;
   private items2: Observable<number>;
   private counter = 0;
-  private firstNumberOpened:boolean;
-  private secondNumberOpened:boolean;
-  private attempts:number;
+  private firstNumberOpened: boolean;
+  private secondNumberOpened: boolean;
+  private attempts: number;
 
   constructor(private navCtrl: NavController, private changeDetector: ChangeDetectorRef) {
     this.initArrayBooleans();
@@ -42,77 +42,77 @@ export class Game {
   ngOnInit() {
     console.log("empezamos");
     this.items2.subscribe((v) => {
-    //  console.log('got value', v);
-    //  this.counter++;
+      //  console.log('got value', v);
+      this.counter++;
       this.performCheckingNumbers();
-      /*if (this.counter % 2 == 0) {
+      if (this.counter % 2 == 0) {
         this.changeDetector.markForCheck();
-      }*/
+      }
     }, null, () => {
       this.changeDetector.markForCheck();
     });
   }
 
-  private initArrayBooleans(){
+  private initArrayBooleans() {
     this.principal = [];
     this.paths = [];
     this.numbers = [];
     this.opened = [];
-    
-    var arrayCounter=7;
-    var myArray = [1,2,3,4,5,6,7,8];
-    this.shuffle(myArray);     
-    
-    for(let i=0;i<this.rows;i++){
+
+    var arrayCounter = 7;
+    var myArray = [1, 2, 3, 4, 5, 6, 7, 8];
+    this.shuffle(myArray);
+
+    for (let i = 0; i < this.rows; i++) {
       this.principal[i] = [];
       this.paths[i] = [];
       this.numbers[i] = [];
       this.opened[i] = [];
-      for(let j=0;j<this.cols;j++){
+      for (let j = 0; j < this.cols; j++) {
         this.principal[i][j] = true;
-        if(arrayCounter==-1){
-          this.shuffle(myArray);  
-          arrayCounter=7;
+        if (arrayCounter == -1) {
+          this.shuffle(myArray);
+          arrayCounter = 7;
         }
-        this.paths[i][j]="build/images/animals/" + myArray[arrayCounter] + ".png";
-        this.numbers[i][j]=myArray[arrayCounter--];
-      }    
+        this.paths[i][j] = "build/images/animals/" + myArray[arrayCounter] + ".png";
+        this.numbers[i][j] = myArray[arrayCounter--];
+      }
     }
   }
 
-  private open (i,j){
-    if(this.principal[i][j] == false){
+  private open(i, j) {
+    if (this.principal[i][j] == false) {
       console.log("you shall not pass");
       return;
     }
-    if(this.firstNumberOpened==true && this.secondNumberOpened==true){
+    if (this.firstNumberOpened == true && this.secondNumberOpened == true) {
       return;
     }
     console.log("hemos pasado");
-    if(this.firstTryX == -1 && this.firstTryY == -1){
+    if (this.firstTryX == -1 && this.firstTryY == -1) {
       this.firstNumberOpened = true;
       this.firstTryX = i;
       this.firstTryY = j;
       this.principal[i][j] = false;
       console.log(1);
-    }else{
+    } else {
       this.secondTryX = i;
       this.secondTryY = j;
       this.principal[i][j] = false;
       this.secondNumberOpened = true;
       console.log(2);
     }
-}
+  }
 
-  private performCheckingNumbers(){
+  private performCheckingNumbers() {
     console.log(this.firstTryX + " " + this.firstTryY + " " + this.secondTryX + " " + this.secondTryY);
-    if(this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1){
+    if (this.firstTryX == -1 || this.firstTryY == -1 || this.secondTryX == -1 || this.secondTryY == -1) {
       return;
     }
-    
-    if(this.numbers[this.firstTryX][this.firstTryY] != this.numbers[this.secondTryX][this.secondTryY]){
-      this.principal[this.secondTryX][this.secondTryY]=true;
-      this.principal[this.firstTryX][this.firstTryY]=true;
+
+    if (this.numbers[this.firstTryX][this.firstTryY] != this.numbers[this.secondTryX][this.secondTryY]) {
+      this.principal[this.secondTryX][this.secondTryY] = true;
+      this.principal[this.firstTryX][this.firstTryY] = true;
       console.log(5);
     }
     this.firstTryX = -1;
@@ -122,22 +122,22 @@ export class Game {
     this.firstNumberOpened = false;
     this.secondNumberOpened = false;
     this.attempts++;
-    if(this.isGameFinished()){
+    if (this.isGameFinished()) {
 
     }
 
-}
-private isGameFinished():boolean{
-  return true;
-}
+  }
+  private isGameFinished(): boolean {
+    return true;
+  }
 
   private shuffle(a) {
     var j, x, i;
     for (i = a.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = a[i - 1];
-        a[i - 1] = a[j];
-        a[j] = x;
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
     }
-  } 
+  }
 }
