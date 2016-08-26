@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
+import {Home} from './pages/home/home';
 import {Game} from './pages/game/game';
+import {Rankings} from './pages/rankings/rankings';
 
 
 @Component({
@@ -12,7 +14,7 @@ export class MyApp {
   private rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = Game;
+    this.rootPage = Home;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

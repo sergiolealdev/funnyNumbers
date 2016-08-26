@@ -48,7 +48,7 @@ gulp.task('watch', ['clean'], function(done){
 });
 
 gulp.task("assets", function() {
-    return gulp.src(["app/assets/images/*"])
+    return gulp.src(["app/assets/images/**/*"])
         .pipe(gulp.dest("www/build/images"));
 });
 
