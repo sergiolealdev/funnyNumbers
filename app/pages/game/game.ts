@@ -4,6 +4,7 @@ import {Component,
   ChangeDetectionStrategy  } from '@angular/core';
 import {NavController} from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
+import {Home} from '../home/home'
 @Component({
   templateUrl: 'build/pages/game/game.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,12 +21,14 @@ export class Game {
   private firstTryY: number;
   private secondTryX: number;
   private secondTryY: number;
-  private timer: any;
-  private items2: Observable<number>;
+  private timer: Observable<number>;
   private counter = 0;
   private firstNumberOpened: boolean;
   private secondNumberOpened: boolean;
   private attempts: number;
+  private width: number;
+  private height: number;
+  private subscription;
 
   constructor(private navCtrl: NavController, private changeDetector: ChangeDetectorRef) {
     this.initArrayBooleans();
@@ -33,14 +36,18 @@ export class Game {
     this.firstTryY = -1;
     this.secondTryX = -1;
     this.secondTryY = -1;
-    this.items2 = Observable.timer(0, 1000);
+    this.timer = Observable.timer(0, 1000);
     this.firstNumberOpened = false;
     this.secondNumberOpened = false;
     this.attempts = 0;
   }
 
   ngOnInit() {
-    this.items2.subscribe((v) => {
+    //console.log(window.innerHeight);
+    //console.log(window.innerWidth);
+    this.width = window.innerWidth / 4.4;
+    this.height = window.innerHeight / 5;
+    this.subscription = this.timer.subscribe((v) => {
       this.counter++;
       this.performCheckingNumbers();
       if (this.counter % 2 == 0) {
@@ -49,6 +56,21 @@ export class Game {
     }, null, () => {
       this.changeDetector.markForCheck();
     });
+  }
+
+  onResize(event) {
+    //console.log(event.target.innerWidth);
+    //console.log(event.target.innerHeight);
+    this.width = event.target.innerWidth / 4.4;
+    this.height = event.target.innerHeight / 5;
+  }
+
+  back() {
+    //push another page onto the history stack
+    //causing the nav controller to animate the new page in
+    this.subscription.unsubscribe();
+    
+    this.navCtrl.pop(Home);
   }
 
   private initArrayBooleans() {
