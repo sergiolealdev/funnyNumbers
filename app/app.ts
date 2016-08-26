@@ -4,6 +4,7 @@ import {StatusBar} from 'ionic-native';
 import {Home} from './pages/home/home';
 import {Game} from './pages/game/game';
 import {Rankings} from './pages/rankings/rankings';
+import {About} from './pages/about/about';
 
 
 @Component({
