@@ -1,11 +1,14 @@
- <ion-header>
+<ion-header>
     <ion-navbar>
-      <ion-title>Home</ion-title>
+        <ion-title>Find it!</ion-title>
     </ion-navbar>
-  </ion-header>
+</ion-header>
 
   <ion-content>
-    <button (click)="play()">
+    <button full (click)="play()">
       Play
     </button>
-  </ion-content>`
+    <button secondary full (click)="rankings()">
+      Rankings
+    </button>
+  </ion-content>
