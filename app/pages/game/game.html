@@ -1,16 +1,3 @@
-<!--<ion-content (window:resize)="onResize($event)">
-  <ion-grid class="game center">
-      <ion-row class="row" *ngFor="let item of items; let i = index">
-          <ion-col class="col-25" *ngFor="let item of items; let j = index">
-            <ion-img src="build/images/panel.png" width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="principal[i][j]"></ion-img>
-            <ion-img src={{paths[i][j]}} width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="!principal[i][j]"></ion-img>
-          </ion-col>
-      </ion-row>
-    <div>
-      <div>Attempts: {{attempts}}</div>
-    </div>
-  </ion-grid>
-</ion-content>-->
 <ion-content (window:resize)="onResize($event)">
   <div *ngFor="let item of items; let i = index">
     <div *ngFor="let item of items; let j = index">
