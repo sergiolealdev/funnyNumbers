@@ -1,22 +1,29 @@
-<ion-content (window:resize)="onResize($event)">
+<!--<ion-content (window:resize)="onResize($event)">
   <ion-grid class="game center">
-    <div *ngFor="let item of items; let i = index">
-      <ion-row class="row">
-        <div *ngFor="let item of items; let j = index">
-          <ion-col class="col-25">
+      <ion-row class="row" *ngFor="let item of items; let i = index">
+          <ion-col class="col-25" *ngFor="let item of items; let j = index">
             <ion-img src="build/images/panel.png" width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="principal[i][j]"></ion-img>
             <ion-img src={{paths[i][j]}} width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="!principal[i][j]"></ion-img>
           </ion-col>
-        </div>
       </ion-row>
-    </div>
     <div>
       <div>Attempts: {{attempts}}</div>
     </div>
   </ion-grid>
-</ion-content>
-<ion-content>
-    <button (click)="back()">
-      Go to Home
+</ion-content>-->
+<ion-content (window:resize)="onResize($event)">
+  <div *ngFor="let item of items; let i = index">
+    <div *ngFor="let item of items; let j = index">
+      <ion-img src="build/images/panel.png" class="game box" width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="principal[i][j]"></ion-img>
+      <ion-img src={{paths[i][j]}} class="game box" width="{{width}}" height="{{height}}" (click)="open(i,j)" *ngIf="!principal[i][j]"></ion-img>
+    </div>
+  </div>
+  <ion-item>
+    <ion-icon name="stats" item-left></ion-icon>
+    Attempts
+    <ion-badge item-right>{{attempts}}</ion-badge>
+  </ion-item>
+  <button full (click)="back()">
+      <- Back
     </button>
-  </ion-content>`
+</ion-content>
