@@ -5,6 +5,7 @@ import {Component,
 import {NavController} from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 import {Home} from '../home/home'
+
 @Component({
   templateUrl: 'build/pages/game/game.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -29,8 +30,10 @@ export class Game {
   private width: number;
   private height: number;
   private subscription;
+  private tab1:any;
 
   constructor(private navCtrl: NavController, private changeDetector: ChangeDetectorRef) {
+    this.tab1 = Home;
     this.initArrayBooleans();
     this.firstTryX = -1;
     this.firstTryY = -1;
@@ -43,8 +46,6 @@ export class Game {
   }
 
   ngOnInit() {
-    //console.log(window.innerHeight);
-    //console.log(window.innerWidth);
     this.width = window.innerWidth / 4.4;
     this.height = window.innerHeight / 5;
     this.subscription = this.timer.subscribe((v) => {
@@ -59,17 +60,12 @@ export class Game {
   }
 
   onResize(event) {
-    //console.log(event.target.innerWidth);
-    //console.log(event.target.innerHeight);
     this.width = event.target.innerWidth / 4.4;
     this.height = event.target.innerHeight / 5;
   }
 
   back() {
-    //push another page onto the history stack
-    //causing the nav controller to animate the new page in
     this.subscription.unsubscribe();
-    
     this.navCtrl.pop(Home);
   }
 
